@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
+import { Container } from 'reactstrap';
 import Sequencer from './components/Sequencer.js';
 import './App.css';
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <Sequencer />
-      </div>
+      <Container>
+        <Sequencer tracks='2' steps='6' />
+      </Container>
     );
   }
 }
