@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { Container, Table, Row, Button } from 'reactstrap';
+import Tone from 'tone';
 
 function SequencerRow({activeStep, stepsWithSounds, addSound, track, steps, isHeader=false}) {
   const sequencerRow = [];
@@ -63,6 +64,18 @@ class Sequencer extends Component {
     this.stopSequencer = this.stopSequencer.bind(this);
     this.resetSequencer = this.resetSequencer.bind(this);
     this.addSound = this.addSound.bind(this);
+  }
+
+  componentDidUpdate(){
+
+    let synth = new Tone.Synth().toMaster();
+
+    for(let track in this.state.stepsWithSounds) {
+      if(this.state.stepsWithSounds[track][this.state.activeStep] !== null){
+        synth.triggerAttackRelease("C4", "16n");
+      }
+    }
+
   }
 
   playSequencer(bpm) {
