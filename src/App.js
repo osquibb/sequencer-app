@@ -7,7 +7,7 @@ class App extends Component {
   render() {
     return (
       <Container>
-        <Sequencer tracks='2' steps='6' />
+        <Sequencer tracks='2' steps='6' bpm='120' />
       </Container>
     );
   }
