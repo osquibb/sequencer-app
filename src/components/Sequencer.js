@@ -72,7 +72,8 @@ class Sequencer extends Component {
 
     for(let track in this.state.stepsWithSounds) {
       if(this.state.stepsWithSounds[track][this.state.activeStep] !== null){
-        synth.triggerAttackRelease("C4", "16n");
+        const note = 'C' + (parseInt(track) + 4)
+        synth.triggerAttackRelease(note, "16n");
       }
     }
 
