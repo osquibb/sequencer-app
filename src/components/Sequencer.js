@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Container, Table, Row, Button } from 'reactstrap';
+import { Table, Button } from 'reactstrap';
 import Tone from 'tone';
 
 function SequencerRow({activeStep, stepsWithSounds, addSound, track, steps, isHeader=false}) {
