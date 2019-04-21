@@ -3,22 +3,42 @@ import { Table, Button, Row, Col } from 'reactstrap';
 import Tone from 'tone';
 
 function SequencerRow({activeStep, sequencerArray, addSound, track, steps, isHeader=false}) {
+  // function that builds and returns one sequencer row
+  
+  // initialize empty row array
   const sequencerRow = [];
+
   let step = 0
+
+  // if header...
   if(isHeader) {
+    // first row of header blank with key 'header-none'
     sequencerRow.push(<th key='header-none'></th>);
+
+    // after first row of header, each th displays step num 
+    // blue w/ white text if step num is the active step
     while(step < steps) {
       sequencerRow.push(<th key={'header-' + step+1}
                             className={step === activeStep ? 'table-info text-white' : null}>{step+1}</th>);
       step++;
     }
+
+    // return the entire header row
     return (
       <tr className="text-center">
       {sequencerRow}
       </tr>
     );
+
+    // if not the header row...
   } else {
     while(step < steps) {
+
+      // each td blank.  change color if the associated sequencer array 
+      // row step is not null (only the associated 2D row of the sequencer
+      // array is passed in)
+      // addSound(): each cell adds (or removes) an 'x' to the sequencerArray when clicked.
+      // which, in turn, results in a change of the cell color
       sequencerRow.push(<td key={track+'-'+step}
                             onClick={addSound}
                             id={track+'-'+step}
@@ -26,6 +46,9 @@ function SequencerRow({activeStep, sequencerArray, addSound, track, steps, isHea
                             className={sequencerArray[step] !== null ? 'table-warning' : null}></td>);
       step++;
     }
+
+    // return row with Track n as the first cell (th), followed
+    // by the sequencer row
     return(
       <tr>
         <th scope="row" className="text-center">Track {track}</th>
@@ -36,6 +59,9 @@ function SequencerRow({activeStep, sequencerArray, addSound, track, steps, isHea
 }
 
 function SequencerTrackRows(props) {
+  // function that returns multiple SequencerRows for multiple
+  // tracks
+
   const sequencerTrackRows = [];
   let track = 1;
   while(track <= props.tracks) {
