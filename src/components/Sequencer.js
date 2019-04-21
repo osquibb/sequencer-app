@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Table, Button, Row, Col } from 'reactstrap';
 import Tone from 'tone';
 
-function SequencerRow({activeStep, sequencerArray, addSound, track, steps, isHeader=false}) {
+function SequencerRow({activeStep, seqRow, addSound, row, steps, isHeader=false}) {
   // function that builds and returns one sequencer row
   
   // initialize empty row array
@@ -39,11 +39,11 @@ function SequencerRow({activeStep, sequencerArray, addSound, track, steps, isHea
       // array is passed in)
       // addSound(): each cell adds (or removes) an 'x' to the sequencerArray when clicked.
       // which, in turn, results in a change of the cell color
-      sequencerRow.push(<td key={track+'-'+step}
+      sequencerRow.push(<td key={row+'-'+step}
                             onClick={addSound}
-                            id={track+'-'+step}
+                            id={row+'-'+step}
                             style={{'cursor': 'pointer'}}
-                            className={sequencerArray[step] !== null ? 'table-warning' : null}></td>);
+                            className={seqRow[step] !== null ? 'table-warning' : null}></td>);
       step++;
     }
 
@@ -51,7 +51,7 @@ function SequencerRow({activeStep, sequencerArray, addSound, track, steps, isHea
     // by the sequencer row
     return(
       <tr>
-        <th scope="row" className="text-center">Track {track}</th>
+        <th scope="row" className="text-center">Track {row}</th>
         {sequencerRow}
       </tr>
     );
@@ -63,16 +63,16 @@ function SequencerTrackRows(props) {
   // tracks
 
   const sequencerTrackRows = [];
-  let track = 1;
-  while(track <= props.tracks) {
+  let row = 1
+  while(row <= props.rows) {
     sequencerTrackRows
-    .push(<SequencerRow key={track}
+    .push(<SequencerRow key={row}
                         activeStep={props.activeStep}
-                        sequencerArray={props.sequencerArray[track-1]}
+                        seqRow={props.sequencer[row-1].rowSeq}
                         addSound={props.addSound}
-                        track={track}
+                        row={row}
                         steps={props.steps}/>)
-    track++
+    row++
   }
   return sequencerTrackRows;
 }
@@ -80,7 +80,7 @@ function SequencerTrackRows(props) {
 class Sequencer extends Component {
 
   constructor(props) {
-    const tracks = 2; // initial num of tracks
+    const rows = 2; // initial num of tracks
     const steps = 8; // inital num of steps
 
     super(props);
@@ -88,38 +88,42 @@ class Sequencer extends Component {
       isDefaultState: true,
       bpm: 120,
       activeStep: 0,
-      sequencerArray: new Array(tracks)
-                       .fill(new Array(steps)
-                       .fill(null))
+      sequencer: new Array(rows).fill({ rowSeq: new Array(steps).fill(null),
+                                          rowSound: null
+                                        })
     };
-    
     this.stopSequencer = this.stopSequencer.bind(this);
     this.resetSequencer = this.resetSequencer.bind(this);
     this.addSound = this.addSound.bind(this);
-  }
+  };
 
   addTrack() {
-    this.setState(state => (
-      { sequencerArray: [...state.sequencerArray, 
-                         new Array(state.sequencerArray[0].length).fill(null)]
-      }));
-  }
+    const seq = this.state.sequencer.map(row => ({...row}));
+    seq.push(
+              {
+                rowSeq: new Array(seq[0].rowSeq.length).fill(null),
+                rowSound: null
+              }
+    );
 
+    this.setState({sequencer: seq});
+  }
+  
   addStep() {
-    const seq = this.state.sequencerArray;
-    for(let track in seq) {
-      seq[track] = [...seq[track], null]
+    const seq = this.state.sequencer.map(row => ({...row}));
+
+    for(let row in seq) {
+      seq[row].rowSeq = [...seq[row].rowSeq, null];
     }
-    this.setState({sequencerArray: seq});
+    this.setState({ sequencer: seq });
   }
 
   componentDidUpdate(){
-
     let synth = new Tone.Synth().toMaster();
 
-    for(let track in this.state.sequencerArray) {
-      if(this.state.sequencerArray[track][this.state.activeStep] !== null){
-        const note = 'C' + (parseInt(track) + 4)
+    for(let row in this.state.sequencer) {
+      if(this.state.sequencer[row].rowSeq[this.state.activeStep] !== null){
+        const note = 'C' + (parseInt(row) + 4)
         synth.triggerAttackRelease(note, "16n");
       }
     }
@@ -127,7 +131,7 @@ class Sequencer extends Component {
 
   playSequencer(bpm) {
     this.setState({isDefaultState: false});
-    const steps = this.state.sequencerArray[0].length;
+    const steps = this.state.sequencer[0].rowSeq.length;
     const ms = 60000 / bpm;
     this.activeStepID = setInterval(
       () => this.setState(state =>
@@ -145,31 +149,35 @@ resetSequencer() {
   this.setState({isDefaultState: true});
   clearInterval(this.activeStepID);
   this.setState({activeStep: 0});
-  this.setState({sequencerArray: new Array(2)
-                                .fill(new Array(8)
-                                .fill(null)) });
+  const resetSeq = new Array(this.state.sequencer.length)
+                    .fill({
+                            rowSeq: new Array(this.state.sequencer[0].rowSeq.length).fill(null),
+                            rowSound: null
+                          }
+                  );
+  this.setState({sequencer: resetSeq});
 }
 
 addSound(event) {
-const track = parseInt(event.target.id.split('-')[0]);
-const step = parseInt(event.target.id.split('-')[1]);
-const updatedsequencerArray = this.state.sequencerArray
-                             .map(track => [...track]);
-if(updatedsequencerArray[track-1][step] === null) {
-  updatedsequencerArray[track-1][step] = 'x';
-} else {
-  updatedsequencerArray[track-1][step] = null;
+const [row, step] = event.target.id.split('-');
+const updatedRowSeq = this.state.sequencer[row-1].rowSeq.slice();
+updatedRowSeq[step] = (updatedRowSeq[step] === null) ? 'x' : null;
+
+const seq = this.state.sequencer.map(row => ({...row}));
+seq[row-1].rowSeq = updatedRowSeq;
+
+this.setState({sequencer: seq});
 }
-this.setState({sequencerArray: updatedsequencerArray});
-}
+
+
 
 componentWillUnmount() {
   clearInterval(this.activeStepID);
 }
 
   render() {
-    const steps = this.state.sequencerArray[0].length;
-    const tracks = this.state.sequencerArray.length;
+    const steps = this.state.sequencer[0].rowSeq.length;
+    const rows = this.state.sequencer.length;
 
     return(
       <Fragment>
@@ -188,9 +196,9 @@ componentWillUnmount() {
               </thead>
               <tbody>
                 <SequencerTrackRows activeStep={this.state.activeStep}
-                                    sequencerArray={this.state.sequencerArray}
+                                    sequencer={this.state.sequencer}
                                     addSound={this.addSound}
-                                    tracks={tracks}
+                                    rows={rows}
                                     steps={steps} />
               </tbody>
             </Table>
