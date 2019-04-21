@@ -69,6 +69,7 @@ class SoundSelector extends Component {
     this.state = {
                     selectedSoundIdx: 0
                   };
+    this.sounds = ['Kick', 'Snare', 'Hi-Hat'];
   }
 
   changeSelectedSound(index) {
@@ -79,20 +80,20 @@ class SoundSelector extends Component {
     return(
       <UncontrolledDropdown size="sm">
         <DropdownToggle caret>
-          Sound
+          {this.sounds[this.state.selectedSoundIdx]}
         </DropdownToggle>
         <DropdownMenu>
           <DropdownItem active={this.state.selectedSoundIdx === 0}
                         onClick={() => this.changeSelectedSound(0)}>
-          Kick
+          {this.sounds[0]}
           </DropdownItem>
           <DropdownItem active={this.state.selectedSoundIdx === 1}
                         onClick={() => this.changeSelectedSound(1)}>
-          Snare
+          {this.sounds[1]}
           </DropdownItem>
           <DropdownItem active={this.state.selectedSoundIdx === 2}
                         onClick={() => this.changeSelectedSound(2)}>
-          Hi-Hat
+          {this.sounds[2]}
           </DropdownItem>
         </DropdownMenu>
       </UncontrolledDropdown>
