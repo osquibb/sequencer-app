@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
-import { Table, Button, Row, Col } from 'reactstrap';
+import { Table, Button, Row, Col, UncontrolledDropdown, 
+         DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import Tone from 'tone';
 
 function SequencerRow({activeStep, seqRow, addSound, row, steps, isHeader=false}) {
@@ -51,9 +52,50 @@ function SequencerRow({activeStep, seqRow, addSound, row, steps, isHeader=false}
     // by the sequencer row
     return(
       <tr>
-        <th scope="row" className="text-center">Track {row}</th>
+        <th scope="row" className="text-center">
+        Track {row}
+        <SoundSelector/>
+        </th>
         {sequencerRow}
       </tr>
+    );
+  }
+}
+
+class SoundSelector extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+                    selectedSoundIdx: 0
+                  };
+  }
+
+  changeSelectedSound(index) {
+    this.setState({selectedSoundIdx: index});
+  }
+
+  render() {
+    return(
+      <UncontrolledDropdown size="sm">
+        <DropdownToggle caret>
+          Sound
+        </DropdownToggle>
+        <DropdownMenu>
+          <DropdownItem active={this.state.selectedSoundIdx === 0}
+                        onClick={() => this.changeSelectedSound(0)}>
+          Kick
+          </DropdownItem>
+          <DropdownItem active={this.state.selectedSoundIdx === 1}
+                        onClick={() => this.changeSelectedSound(1)}>
+          Snare
+          </DropdownItem>
+          <DropdownItem active={this.state.selectedSoundIdx === 2}
+                        onClick={() => this.changeSelectedSound(2)}>
+          Hi-Hat
+          </DropdownItem>
+        </DropdownMenu>
+      </UncontrolledDropdown>
     );
   }
 }
@@ -168,8 +210,6 @@ seq[row-1].rowSeq = updatedRowSeq;
 
 this.setState({sequencer: seq});
 }
-
-
 
 componentWillUnmount() {
   clearInterval(this.activeStepID);
