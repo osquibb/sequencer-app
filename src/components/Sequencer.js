@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from 'react';
-import { Table, Button, Row, Col, UncontrolledDropdown, 
-         DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { Table, Button, Row, Col } from 'reactstrap';
+import SoundSelector from './SoundSelector';
 import Tone from 'tone';
 
-function SequencerRow({activeStep, seqRow, addSound, row, steps, isHeader=false}) {
+function SequencerRow({sounds, activeStep, seqRow, addSound, row, steps, isHeader=false}) {
   // function that builds and returns one sequencer row
   
   // initialize empty row array
@@ -54,49 +54,10 @@ function SequencerRow({activeStep, seqRow, addSound, row, steps, isHeader=false}
       <tr>
         <th scope="row" className="text-center">
         Track {row}
-        <SoundSelector/>
+        <SoundSelector sounds={sounds}/>
         </th>
         {sequencerRow}
       </tr>
-    );
-  }
-}
-
-class SoundSelector extends Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-                    selectedSoundIdx: 0
-                  };
-    this.sounds = ['Kick', 'Snare', 'Hi-Hat'];
-  }
-
-  changeSelectedSound(index) {
-    this.setState({selectedSoundIdx: index});
-  }
-
-  render() {
-    return(
-      <UncontrolledDropdown size="sm">
-        <DropdownToggle caret>
-          {this.sounds[this.state.selectedSoundIdx]}
-        </DropdownToggle>
-        <DropdownMenu>
-          <DropdownItem active={this.state.selectedSoundIdx === 0}
-                        onClick={() => this.changeSelectedSound(0)}>
-          {this.sounds[0]}
-          </DropdownItem>
-          <DropdownItem active={this.state.selectedSoundIdx === 1}
-                        onClick={() => this.changeSelectedSound(1)}>
-          {this.sounds[1]}
-          </DropdownItem>
-          <DropdownItem active={this.state.selectedSoundIdx === 2}
-                        onClick={() => this.changeSelectedSound(2)}>
-          {this.sounds[2]}
-          </DropdownItem>
-        </DropdownMenu>
-      </UncontrolledDropdown>
     );
   }
 }
@@ -110,6 +71,7 @@ function SequencerTrackRows(props) {
   while(row <= props.rows) {
     sequencerTrackRows
     .push(<SequencerRow key={row}
+                        sounds={props.sounds}
                         activeStep={props.activeStep}
                         seqRow={props.sequencer[row-1].rowSeq}
                         addSound={props.addSound}
@@ -120,7 +82,7 @@ function SequencerTrackRows(props) {
   return sequencerTrackRows;
 }
 
-class Sequencer extends Component {
+export default class Sequencer extends Component {
 
   constructor(props) {
     const rows = 2; // initial num of tracks
@@ -129,6 +91,7 @@ class Sequencer extends Component {
     super(props);
     this.state = {
       isDefaultState: true,
+      sounds: ['Kick', 'Snare', 'Hi-Hat'],
       bpm: 120,
       activeStep: 0,
       sequencer: new Array(rows).fill({ rowSeq: new Array(steps).fill(null),
@@ -237,6 +200,7 @@ componentWillUnmount() {
               </thead>
               <tbody>
                 <SequencerTrackRows activeStep={this.state.activeStep}
+                                    sounds={this.state.sounds}
                                     sequencer={this.state.sequencer}
                                     addSound={this.addSound}
                                     rows={rows}
@@ -254,8 +218,8 @@ componentWillUnmount() {
         </Row>
         <Row className="text-center text-muted">
           <Col>
-            <Button className='m-3' disabled={!this.state.isDefaultState} onClick={() => this.addTrack()}><i className="fa fa-plus-circle"></i> Tracks</Button>
-            <Button className='m-3' disabled={!this.state.isDefaultState} onClick={() => this.addStep()}><i className="fa fa-plus-circle"></i> Steps</Button>
+            <Button className={!this.state.isDefaultState ? 'd-none m-3' : 'm-3'} onClick={() => this.addTrack()}><i className="fa fa-plus-circle"></i> Tracks</Button>
+            <Button className={!this.state.isDefaultState ? 'd-none m-3' : 'm-3'} onClick={() => this.addStep()}><i className="fa fa-plus-circle"></i> Steps</Button>
           </Col>
         </Row>
       </Fragment>
@@ -263,4 +227,3 @@ componentWillUnmount() {
   }
 }
 
-export default Sequencer;
