@@ -10,32 +10,40 @@ export default class SoundSelector extends Component {
                   };
   }
 
-  changeSelectedSound(index) {
-    this.setState({selectedSoundIdx: index});
+  componentDidUpdate(prevProps, prevState, snapshot){
+    if(prevState.selectedSoundIdx !== this.state.selectedSoundIdx){
+      const rowIdx = this.props.row - 1;
+      this.props.handleSoundSelect(rowIdx, this.state.selectedSoundIdx);
+    }
+  }
+
+  changeSelectedSound(rowIdx, soundIdx) {
+    this.setState({selectedSoundIdx: soundIdx});
+    this.props.handleSoundSelect(rowIdx, soundIdx);
   }
 
   
-
   render() {
     const sounds = this.props.sounds;
+    const rowIdx = this.props.row - 1;
+
+    const dropDownSounds = sounds.map((sound, idx) => {
+      return(
+      <DropdownItem key={idx}
+                    active={this.state.selectedSoundIdx === idx}
+                    onClick={() => this.changeSelectedSound(rowIdx, idx)}>
+        {sound}
+      </DropdownItem>
+      );
+    });
+
     return(
       <UncontrolledDropdown size="sm">
         <DropdownToggle caret>
           {sounds[this.state.selectedSoundIdx]}
         </DropdownToggle>
         <DropdownMenu>
-          <DropdownItem active={this.state.selectedSoundIdx === 0}
-                        onClick={() => this.changeSelectedSound(0)}>
-          {sounds[0]}
-          </DropdownItem>
-          <DropdownItem active={this.state.selectedSoundIdx === 1}
-                        onClick={() => this.changeSelectedSound(1)}>
-          {sounds[1]}
-          </DropdownItem>
-          <DropdownItem active={this.state.selectedSoundIdx === 2}
-                        onClick={() => this.changeSelectedSound(2)}>
-          {sounds[2]}
-          </DropdownItem>
+          {dropDownSounds}
         </DropdownMenu>
       </UncontrolledDropdown>
     );
