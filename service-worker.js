@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/sequencer-app/precache-manifest.344056ddf87685afe0c81c3841520f8e.js"
+  "/sequencer-app/precache-manifest.35970a88f70b8637af3cc2ff4706ae08.js"
 );
 
 workbox.clientsClaim();
