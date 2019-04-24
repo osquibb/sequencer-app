@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Table, Button, Row, Col, Input, Label } from 'reactstrap';
+import { Table, Button, Row, Col, Input } from 'reactstrap';
 import SoundSelector from './SoundSelector';
 import { Howl } from 'howler';
 
@@ -121,7 +121,11 @@ export default class Sequencer extends Component {
               }
     );
 
+    if(seq.length >= 9) {
+      alert('Maximum Number of Tracks: 8')
+    } else {
     this.setState({sequencer: seq});
+    }
   }
   
   addStep() {
@@ -130,7 +134,12 @@ export default class Sequencer extends Component {
     for(let row in seq) {
       seq[row].rowSeq = [...seq[row].rowSeq, null];
     }
-    this.setState({ sequencer: seq });
+
+    if(seq[0].rowSeq.length >= 17) {
+      alert('Maximum Number of Steps: 16')
+    } else {
+    this.setState({sequencer: seq});
+    }
   }
 
   handleSoundSelect(rowIdx, soundIdx) {
@@ -248,7 +257,7 @@ handleBPMChange(event) {
             <h4>BPM</h4>
           </Col>
           <Col xs="8">
-            <Input type='range' min={60} max={400} value={this.state.bpm} onChange={this.handleBPMChange}/>
+            <Input type='range' min={60} max={600} value={this.state.bpm} onChange={this.handleBPMChange}/>
           </Col>
           <Col xs="2">
             <h4>{this.state.bpm}</h4>
