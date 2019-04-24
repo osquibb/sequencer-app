@@ -1,8 +1,7 @@
 import React, { Component, Fragment } from 'react';
-import { Table, Button, Row, Col } from 'reactstrap';
+import { Table, Button, Row, Col, Input, Label } from 'reactstrap';
 import SoundSelector from './SoundSelector';
-import {Howl, Howler} from 'howler';
-import Tone from 'tone';
+import { Howl } from 'howler';
 
 function SequencerRow({sounds, handleSoundSelect, activeStep, seqRow, addSound, row, steps, isHeader=false}) {
   // function that builds and returns one sequencer row
@@ -100,25 +99,17 @@ export default class Sequencer extends Component {
                                         })
     };
 
-    // this.soundEngines = this.props.soundUrls.map(soundUrl => {
-    //   return(
-    //     new Howl({
-    //       src: [soundUrl]
-    //     })
-    //   );
-    // });
-
     this.stopSequencer = this.stopSequencer.bind(this);
     this.clearSequencer = this.clearSequencer.bind(this);
     this.addSound = this.addSound.bind(this);
     this.handleSoundSelect = this.handleSoundSelect.bind(this);
+    this.handleBPMChange = this.handleBPMChange.bind(this);
 
     this.soundEngines = this.props.soundUrls.map(soundUrl => {
       return(
         new Howl({src: [soundUrl]})
       );
     });
-
   };
 
   addTrack() {
@@ -204,6 +195,9 @@ componentWillUnmount() {
   clearInterval(this.activeStepID);
 }
 
+handleBPMChange(event) {
+  this.setState({bpm: event.target.value});
+}
 
   render() {
     const steps = this.state.sequencer[0].rowSeq.length;
@@ -247,6 +241,17 @@ componentWillUnmount() {
           <Col>
             <Button className={!this.state.isDefaultState ? 'd-none m-3' : 'm-3'} onClick={() => this.addTrack()}><i className="fa fa-plus-circle"></i> Tracks</Button>
             <Button className={!this.state.isDefaultState ? 'd-none m-3' : 'm-3'} onClick={() => this.addStep()}><i className="fa fa-plus-circle"></i> Steps</Button>
+          </Col>
+        </Row>
+        <Row className={!this.state.isDefaultState ? 'd-none' : 'text-muted text-center'}>
+          <Col xs="2">
+            <h4>BPM</h4>
+          </Col>
+          <Col xs="8">
+            <Input type='range' min={60} max={400} value={this.state.bpm} onChange={this.handleBPMChange}/>
+          </Col>
+          <Col xs="2">
+            <h4>{this.state.bpm}</h4>
           </Col>
         </Row>
       </Fragment>
