@@ -4,9 +4,9 @@ import Sequencer from './components/Sequencer.js';
 import './App.css';
 
 const sounds = ['Kick', 'Snare', 'Castanets']
-const soundUrls = ['/sounds/bass-drum__025_forte_bass-drum-mallet.mp3',
-                  '/sounds/snare-drum__025_forte_with-snares.mp3',
-                  '/sounds/castanets__025_mezzo-forte_struck-singly.mp3']
+const soundUrls = ['./public/sounds/bass-drum__025_forte_bass-drum-mallet.mp3',
+                  './public/sounds/snare-drum__025_forte_with-snares.mp3',
+                  './public/sounds/castanets__025_mezzo-forte_struck-singly.mp3']
 
 class App extends Component {
 
