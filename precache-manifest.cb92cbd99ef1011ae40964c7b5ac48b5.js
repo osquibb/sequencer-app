@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "fc82539a38d9c4d67777",
+    "revision": "ec364e17c6b2a1e4d062",
     "url": "/sequencer-app/static/css/main.7cfe653f.chunk.css"
   },
   {
-    "revision": "fc82539a38d9c4d67777",
-    "url": "/sequencer-app/static/js/main.54ef337c.chunk.js"
+    "revision": "ec364e17c6b2a1e4d062",
+    "url": "/sequencer-app/static/js/main.de568b79.chunk.js"
   },
   {
     "revision": "3fddc68763fb5d228d41",
@@ -28,19 +28,19 @@ self.__precacheManifest = [
     "url": "/sequencer-app/static/media/fontawesome-webfont.fee66e71.woff"
   },
   {
-    "revision": "b06871f281fee6b241d60582ae9369b9",
-    "url": "/sequencer-app/static/media/fontawesome-webfont.b06871f2.ttf"
-  },
-  {
     "revision": "674f50d287a8c48dc19ba404d20fe713",
     "url": "/sequencer-app/static/media/fontawesome-webfont.674f50d2.eot"
+  },
+  {
+    "revision": "b06871f281fee6b241d60582ae9369b9",
+    "url": "/sequencer-app/static/media/fontawesome-webfont.b06871f2.ttf"
   },
   {
     "revision": "912ec66d7572ff821749319396470bde",
     "url": "/sequencer-app/static/media/fontawesome-webfont.912ec66d.svg"
   },
   {
-    "revision": "7cfcb8468079a1b8772ebcabc5afb92a",
+    "revision": "29de8468655ab24ac848dafeef76f1c2",
     "url": "/sequencer-app/index.html"
   }
 ];
