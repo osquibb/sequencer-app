@@ -92,6 +92,7 @@ export default class Sequencer extends Component {
     super(props);
     this.state = {
       isDefaultState: true,
+      isPlaying: false,
       bpm: 120,
       activeStep: 0,
       sequencer: new Array(rows).fill({ rowSeq: new Array(steps).fill(null),
@@ -101,9 +102,13 @@ export default class Sequencer extends Component {
 
     this.stopSequencer = this.stopSequencer.bind(this);
     this.clearSequencer = this.clearSequencer.bind(this);
+    this.resetSequencer = this.resetSequencer.bind(this);
     this.addSound = this.addSound.bind(this);
     this.handleSoundSelect = this.handleSoundSelect.bind(this);
     this.handleBPMChange = this.handleBPMChange.bind(this);
+
+    this.rows = rows;
+    this.steps = steps;
 
     this.soundEngines = this.props.soundUrls.map(soundUrl => {
       return(
@@ -162,6 +167,7 @@ export default class Sequencer extends Component {
 
   playSequencer(bpm) {
     this.setState({isDefaultState: false});
+    this.setState({isPlaying: true});
     const steps = this.state.sequencer[0].rowSeq.length;
     const ms = 60000 / bpm;
     this.activeStepID = setInterval(
@@ -173,20 +179,37 @@ export default class Sequencer extends Component {
   }
 
 stopSequencer() {
+  this.setState({isPlaying: false});
   clearInterval(this.activeStepID);
 }
 
 clearSequencer() {
   this.setState({isDefaultState: true});
+  this.setState({isPlaying: false});
   clearInterval(this.activeStepID);
   this.setState({activeStep: 0});
-  const clearSeq = new Array(this.state.sequencer.length)
-                    .fill({
-                            rowSeq: new Array(this.state.sequencer[0].rowSeq.length).fill(null),
-                            rowSoundEngine: null
-                          }
-                  );
-  this.setState({sequencer: clearSeq});
+
+  const seq = this.state.sequencer.map(row => ({...row}));
+
+  for(let row in seq){
+    seq[row].rowSeq = seq[row].rowSeq.fill(null);
+  }
+
+  this.setState({sequencer: seq});
+}
+
+resetSequencer() {
+  this.setState({isDefaultState: true});
+  this.setState({isPlaying: false});
+  clearInterval(this.activeStepID);
+  this.setState({activeStep: 0});
+  const resetSeq = new Array(this.rows).fill({ 
+                                          rowSeq: new Array(this.steps).fill(null),
+                                          rowSoundEngine: new Howl({
+                                                                    src: [this.props.soundUrls[0]]
+                                                                  })
+  })
+  this.setState({sequencer: resetSeq});
 }
 
 addSound(event) {
@@ -239,9 +262,10 @@ handleBPMChange(event) {
             </Table>
           </Col>
         </Row>
-        <Row className="text-center">
+        <Row className="text-center mb-3">
           <Col>
-            <Button color="warning" className="mr-3" onClick={this.clearSequencer}>Clear</Button>
+            <Button color="warning" className="mr-3" onClick={this.resetSequencer}>Reset</Button>
+            <Button color="warning" className="ml-3 mr-3" onClick={this.clearSequencer}>Clear</Button>
             <Button color="danger" className="ml-3 mr-3" onClick={this.stopSequencer}>Stop</Button>
             <Button color="success" className="ml-3" onClick={() => this.playSequencer(this.state.bpm)}>Play</Button>
           </Col>
@@ -252,12 +276,12 @@ handleBPMChange(event) {
             <Button className={!this.state.isDefaultState ? 'd-none m-3' : 'm-3'} onClick={() => this.addStep()}><i className="fa fa-plus-circle"></i> Steps</Button>
           </Col>
         </Row>
-        <Row className={!this.state.isDefaultState ? 'd-none' : 'text-muted text-center'}>
+        <Row className={this.state.isPlaying ? 'd-none' : 'text-muted text-center'}>
           <Col xs="2">
             <h4>BPM</h4>
           </Col>
           <Col xs="8">
-            <Input type='range' min={60} max={600} value={this.state.bpm} onChange={this.handleBPMChange}/>
+            <Input type='range' min={60} max={700} value={this.state.bpm} onChange={this.handleBPMChange}/>
           </Col>
           <Col xs="2">
             <h4>{this.state.bpm}</h4>
