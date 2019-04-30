@@ -1,4 +1,4 @@
-## Custom ReactJS sound sequencer component.
+## Custom ReactJS Step Sequencer.
 
 This is an ongoing project.
 
