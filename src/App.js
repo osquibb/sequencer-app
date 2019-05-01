@@ -3,10 +3,13 @@ import { Container } from 'reactstrap';
 import Sequencer from './components/Sequencer.js';
 import './App.css';
 
-const sounds = ['Kick', 'Snare', 'Castanets']
-const soundUrls = ['./sounds/bass-drum__025_forte_bass-drum-mallet.mp3',
-                  './sounds/snare-drum__025_forte_with-snares.mp3',
-                  './sounds/castanets__025_mezzo-forte_struck-singly.mp3']
+const sounds = ['Kick', 'Snare', 'Castanets', 'Cymbals', 'Tambourine', 'Woodblock'];
+const soundUrls = ['./sounds/kick.mp3',
+                  './sounds/snare.mp3',
+                  './sounds/castanets.mp3',
+                  './sounds/cymbals.mp3',
+                  './sounds/tambourine.mp3',
+                  './sounds/woodblock.mp3'];
 
 class App extends Component {
 
