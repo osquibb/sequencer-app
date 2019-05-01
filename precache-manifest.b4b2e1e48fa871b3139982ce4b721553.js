@@ -1,23 +1,23 @@
 self.__precacheManifest = [
   {
-    "revision": "148c35b44a4f5fa5eb85",
+    "revision": "51c573807f4076895c75",
     "url": "/sequencer-app/static/css/main.7cfe653f.chunk.css"
   },
   {
-    "revision": "148c35b44a4f5fa5eb85",
-    "url": "/sequencer-app/static/js/main.87a062b4.chunk.js"
+    "revision": "51c573807f4076895c75",
+    "url": "/sequencer-app/static/js/main.c0ec45ae.chunk.js"
   },
   {
     "revision": "3fddc68763fb5d228d41",
     "url": "/sequencer-app/static/js/runtime~main.fa443300.js"
   },
   {
-    "revision": "a063780bbecbe207f1ce",
+    "revision": "05b207dd4a730ee57162",
     "url": "/sequencer-app/static/css/2.95d88bd0.chunk.css"
   },
   {
-    "revision": "a063780bbecbe207f1ce",
-    "url": "/sequencer-app/static/js/2.638757e4.chunk.js"
+    "revision": "05b207dd4a730ee57162",
+    "url": "/sequencer-app/static/js/2.30e93742.chunk.js"
   },
   {
     "revision": "af7ae505a9eed503f8b8e6982036873e",
@@ -40,7 +40,7 @@ self.__precacheManifest = [
     "url": "/sequencer-app/static/media/fontawesome-webfont.912ec66d.svg"
   },
   {
-    "revision": "455160ba55a7393bbc4a7c3d4aae0df2",
+    "revision": "9159c5a4716e321261476ad2810a0291",
     "url": "/sequencer-app/index.html"
   }
 ];
