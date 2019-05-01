@@ -20,7 +20,7 @@ function SequencerRow({sounds, handleSoundSelect, activeStep, seqRow, addSound, 
     // blue w/ white text if step num is the active step
     while(step < steps) {
       sequencerRow.push(<th key={'header-' + step+1}
-                            className={step === activeStep ? 'table-info text-white' : null}>{step+1}</th>);
+                            className={step === activeStep ? 'table-secondary font-weight-light' : 'font-weight-light'}>{step+1}</th>);
       step++;
     }
 
@@ -43,8 +43,8 @@ function SequencerRow({sounds, handleSoundSelect, activeStep, seqRow, addSound, 
       sequencerRow.push(<td key={row+'-'+step}
                             onClick={addSound}
                             id={row+'-'+step}
-                            style={{'cursor': 'pointer'}}
-                            className={seqRow[step] !== null ? 'table-warning' : null}></td>);
+                            style={{'cursor': 'pointer', 'opacity': '0.7'}}
+                            className={seqRow[step] !== null ? 'table-info' : null}></td>);
       step++;
     }
 
@@ -52,7 +52,7 @@ function SequencerRow({sounds, handleSoundSelect, activeStep, seqRow, addSound, 
     // by the sequencer row
     return(
       <tr>
-        <th scope="row" className="text-center">
+        <th scope="row" className="text-center font-weight-light">
         Track {row}
         <SoundSelector row={row} sounds={sounds} handleSoundSelect={handleSoundSelect}/>
         </th>
@@ -237,14 +237,9 @@ handleBPMChange(event) {
 
     return(
       <Fragment>
-        <Row className="text-center">
-          <Col>
-            <h3>Sequencer</h3>
-          </Col>
-        </Row>
         <Row>
           <Col>
-            <Table bordered className="text-muted">
+            <Table bordered className="text-muted mt-5">
               <thead>
                 <SequencerRow activeStep={this.state.activeStep}
                               steps={steps}
@@ -262,29 +257,29 @@ handleBPMChange(event) {
             </Table>
           </Col>
         </Row>
-        <Row className="text-center mb-3">
+        <Row className="text-center mb-3 font-weight-light">
           <Col>
-            <Button color="warning" className="mr-3" onClick={this.resetSequencer}>Reset</Button>
-            <Button color="warning" className="ml-3 mr-3" onClick={this.clearSequencer}>Clear</Button>
-            <Button color="danger" className="ml-3 mr-3" onClick={this.stopSequencer}>Stop</Button>
-            <Button color="success" className="ml-3" onClick={() => this.playSequencer(this.state.bpm)}>Play</Button>
+            <Button color="info" outline className="mr-3" onClick={this.resetSequencer}>Reset</Button>
+            <Button color="info" outline className="ml-3 mr-3" onClick={this.clearSequencer}>Clear</Button>
+            <Button color="danger" outline className="ml-3 mr-3" onClick={this.stopSequencer}>Stop</Button>
+            <Button color="success" outline className="ml-3" onClick={() => this.playSequencer(this.state.bpm)}>Play</Button>
           </Col>
         </Row>
         <Row className="text-center text-muted">
-          <Col>
-            <Button className={!this.state.isDefaultState ? 'd-none m-3' : 'm-3'} onClick={() => this.addTrack()}><i className="fa fa-plus-circle"></i> Tracks</Button>
-            <Button className={!this.state.isDefaultState ? 'd-none m-3' : 'm-3'} onClick={() => this.addStep()}><i className="fa fa-plus-circle"></i> Steps</Button>
+          <Col className="font-weight-light">
+            <Button outline className={!this.state.isDefaultState ? 'd-none m-3' : 'm-3'} onClick={() => this.addTrack()}><i className="fa fa-plus-circle"></i> Tracks</Button>
+            <Button outline className={!this.state.isDefaultState ? 'd-none m-3' : 'm-3'} onClick={() => this.addStep()}><i className="fa fa-plus-circle"></i> Steps</Button>
           </Col>
         </Row>
         <Row className={this.state.isPlaying ? 'd-none' : 'text-muted text-center'}>
           <Col xs="2">
-            <h4>BPM</h4>
+            <h5 className="font-weight-light">BPM</h5>
           </Col>
           <Col xs="8">
             <Input type='range' min={60} max={700} value={this.state.bpm} onChange={this.handleBPMChange}/>
           </Col>
           <Col xs="2">
-            <h4>{this.state.bpm}</h4>
+            <h5 className="font-weight-light">{this.state.bpm}</h5>
           </Col>
         </Row>
       </Fragment>
