@@ -4,12 +4,12 @@ import Sequencer from './components/Sequencer.js';
 import './App.css';
 
 const sounds = ['Kick', 'Snare', 'Castanets', 'Cymbals', 'Tambourine', 'Woodblock'];
-const soundUrls = ['./sounds/kick.mp3',
-                  './sounds/snare.mp3',
-                  './sounds/castanets.mp3',
-                  './sounds/cymbals.mp3',
-                  './sounds/tambourine.mp3',
-                  './sounds/woodblock.mp3'];
+const soundUrls = ['https://osquibb.github.io/public/sounds/kick.mp3',
+                  'https://osquibb.github.io/public/sounds/snare.mp3',
+                  'https://osquibb.github.io/public/sounds/castanets.mp3',
+                  'https://osquibb.github.io/public/sounds/cymbals.mp3',
+                  'https://osquibb.github.io/public/sounds/tambourine.mp3',
+                  'https://osquibb.github.io/public/sounds/woodblock.mp3'];
 
 class App extends Component {
 
