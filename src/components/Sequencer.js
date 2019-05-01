@@ -93,7 +93,7 @@ export default class Sequencer extends Component {
     this.state = {
       isDefaultState: true,
       isPlaying: false,
-      bpm: 120,
+      bpm: 240,
       activeStep: 0,
       sequencer: new Array(rows).fill({ rowSeq: new Array(steps).fill(null),
                                           rowSoundEngine: new Howl({src: [this.props.soundUrls[0]]})
