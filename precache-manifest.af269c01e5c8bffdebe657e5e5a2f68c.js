@@ -40,7 +40,7 @@ self.__precacheManifest = [
     "url": "/sequencer-app/static/media/fontawesome-webfont.912ec66d.svg"
   },
   {
-    "revision": "16eca55ba1f3b24bc5bd9e57eb977aaf",
+    "revision": "9adad8121d49996cf4cf90864a04257e",
     "url": "/sequencer-app/index.html"
   }
 ];
