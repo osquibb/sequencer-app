@@ -14,13 +14,12 @@ function SequencerRow({sounds, handleSoundSelect, activeStep, seqRow, addSound, 
   // if header...
   if(isHeader) {
     // first row of header blank with key 'header-none'
-    sequencerRow.push(<th key='header-none'></th>);
+    sequencerRow.push(<th style={{"border": "1px solid #ffd7a8"}} key='header-none'></th>);
 
     // after first row of header, each th displays step num 
-    // blue w/ white text if step num is the active step
     while(step < steps) {
-      sequencerRow.push(<th key={'header-' + step+1}
-                            className={step === activeStep ? 'table-secondary font-weight-light' : 'font-weight-light'}>{step+1}</th>);
+      sequencerRow.push(<th style={{"border": "1px solid #ffd7a8"}} key={'header-' + step+1}
+                            className={step === activeStep ? 'table-warning font-weight-light' : 'font-weight-light'}>{step+1}</th>);
       step++;
     }
 
@@ -43,8 +42,8 @@ function SequencerRow({sounds, handleSoundSelect, activeStep, seqRow, addSound, 
       sequencerRow.push(<td key={row+'-'+step}
                             onClick={addSound}
                             id={row+'-'+step}
-                            style={{'cursor': 'pointer', 'opacity': '0.7'}}
-                            className={seqRow[step] !== null ? 'table-info' : null}></td>);
+                            style={{'cursor': 'pointer', 'opacity': '0.7', "border": "1px solid #ffd7a8"}}
+                            className={seqRow[step] !== null ? 'table-primary' : null}></td>);
       step++;
     }
 
@@ -52,7 +51,7 @@ function SequencerRow({sounds, handleSoundSelect, activeStep, seqRow, addSound, 
     // by the sequencer row
     return(
       <tr>
-        <th scope="row" className="text-center font-weight-light">
+        <th style={{"border": "1px solid #ffd7a8"}} scope="row" className="text-center font-weight-light">
         Track {row}
         <SoundSelector row={row} sounds={sounds} handleSoundSelect={handleSoundSelect}/>
         </th>
@@ -87,7 +86,7 @@ export default class Sequencer extends Component {
 
   constructor(props) {
     const rows = 2; // initial num of tracks
-    const steps = 8; // inital num of steps
+    const steps = 6; // inital num of steps
 
     super(props);
     this.state = {
@@ -239,7 +238,11 @@ handleBPMChange(event) {
       <Fragment>
         <Row>
           <Col>
-            <Table bordered className="text-muted mt-5">
+            <Table  
+                   className="text-muted mt-3"
+                   style={{"background-color": "#d5ede4", 
+                           "boxShadow": "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)"}}
+            >
               <thead>
                 <SequencerRow activeStep={this.state.activeStep}
                               steps={steps}
@@ -273,7 +276,7 @@ handleBPMChange(event) {
         </Row>
         <Row className={this.state.isPlaying ? 'd-none' : 'text-muted text-center'}>
           <Col xs="2">
-            <h5 className="font-weight-light">BPM</h5>
+            <h5>BPM</h5>
           </Col>
           <Col xs="8">
             <Input type='range' min={60} max={700} value={this.state.bpm} onChange={this.handleBPMChange}/>

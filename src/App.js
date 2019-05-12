@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Container, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Container, Row, Col, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import Sequencer from './components/Sequencer.js';
 import './App.css';
 
@@ -29,7 +29,14 @@ class App extends Component {
     return (
       <Fragment>
         <Container>
-          <Sequencer sounds={sounds} soundUrls={soundUrls} />
+          <Row className="text-center mt-4">
+            <Col>
+              <h2>Step Sequencer</h2>
+            </Col>
+          </Row>
+          <Sequencer sounds={sounds}
+                     soundUrls={soundUrls} 
+          />
         </Container>
         <Modal isOpen={this.state.modal} toggle={this.toggleModal}>
         <ModalHeader toggle={this.toggle}>How to Play</ModalHeader>
