@@ -16,7 +16,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: false
+      modal: true
     };
     this.toggleModal = this.toggleModal.bind(this);
   }
