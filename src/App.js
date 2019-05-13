@@ -40,7 +40,7 @@ class App extends Component {
         </Container>
         <Modal isOpen={this.state.modal} toggle={this.toggleModal}>
         <ModalHeader toggle={this.toggle}>How to Play</ModalHeader>
-        <ModalBody>
+        <ModalBody className="text-left">
           <ol>
             <li>Click on cells in the sequencer</li>
             <li>Then press play!</li>
