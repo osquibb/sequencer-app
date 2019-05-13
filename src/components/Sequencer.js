@@ -14,18 +14,25 @@ function SequencerRow({sounds, handleSoundSelect, activeStep, seqRow, addSound, 
   // if header...
   if(isHeader) {
     // first row of header blank with key 'header-none'
-    sequencerRow.push(<th style={{"border": "1px solid #ffd7a8"}} key='header-none'></th>);
+    sequencerRow.push(<th style={{border: '1px solid #1A163D', 
+                                  backgroundColor: "white"}} 
+                          key='header-none' 
+                      />);
 
     // after first row of header, each th displays step num 
     while(step < steps) {
-      sequencerRow.push(<th style={{"border": "1px solid #ffd7a8"}} key={'header-' + step+1}
-                            className={step === activeStep ? 'table-warning font-weight-light' : 'font-weight-light'}>{step+1}</th>);
+      sequencerRow.push(<th style={{border: '1px solid #1A163D', 
+                                    backgroundColor : step === activeStep ? '#FFFBC7' : 'white'}} 
+                            key={'header-' + step+1}
+                        >
+                          {step+1}
+                        </th>);
       step++;
     }
 
     // return the entire header row
     return (
-      <tr className="text-center">
+      <tr>
       {sequencerRow}
       </tr>
     );
@@ -42,8 +49,11 @@ function SequencerRow({sounds, handleSoundSelect, activeStep, seqRow, addSound, 
       sequencerRow.push(<td key={row+'-'+step}
                             onClick={addSound}
                             id={row+'-'+step}
-                            style={{'cursor': 'pointer', 'opacity': '0.7', "border": "1px solid #ffd7a8"}}
-                            className={seqRow[step] !== null ? 'table-primary' : null}></td>);
+                            style={{cursor: 'pointer',
+                                    border: '1px solid #1A163D', 
+                                    backgroundColor: seqRow[step] !== null ? '#E07D7E' : 'white'
+                                  }}
+                        />);
       step++;
     }
 
@@ -51,9 +61,12 @@ function SequencerRow({sounds, handleSoundSelect, activeStep, seqRow, addSound, 
     // by the sequencer row
     return(
       <tr>
-        <th style={{"border": "1px solid #ffd7a8"}} scope="row" className="text-center font-weight-light">
-        Track {row}
-        <SoundSelector row={row} sounds={sounds} handleSoundSelect={handleSoundSelect}/>
+        <th style={{border: '1px solid #1A163D', 
+                    backgroundColor: "white"}} 
+            scope="row" 
+        >
+          Track {row}
+          <SoundSelector row={row} sounds={sounds} handleSoundSelect={handleSoundSelect}/>
         </th>
         {sequencerRow}
       </tr>
@@ -239,9 +252,8 @@ handleBPMChange(event) {
         <Row>
           <Col>
             <Table  
-                   className="text-muted mt-3"
-                   style={{"background-color": "#d5ede4", 
-                           "boxShadow": "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)"}}
+                   className='mt-3 mb-5'
+                   style={{boxShadow: '4px 4px #1A163D'}}
             >
               <thead>
                 <SequencerRow activeStep={this.state.activeStep}
@@ -260,29 +272,29 @@ handleBPMChange(event) {
             </Table>
           </Col>
         </Row>
-        <Row className="text-center mb-3 font-weight-light">
+        <Row className='mb-3'>
           <Col>
-            <Button color="info" outline className="mr-3" onClick={this.resetSequencer}>Reset</Button>
-            <Button color="info" outline className="ml-3 mr-3" onClick={this.clearSequencer}>Clear</Button>
-            <Button color="danger" outline className="ml-3 mr-3" onClick={this.stopSequencer}>Stop</Button>
-            <Button color="success" outline className="ml-3" onClick={() => this.playSequencer(this.state.bpm)}>Play</Button>
+            <button className="mr-3 sequencer-button" onClick={this.resetSequencer}>Reset</button>
+            <button className="ml-3 mr-3 sequencer-button" onClick={this.clearSequencer}>Clear</button>
+            <button className="ml-3 mr-3 sequencer-button text-danger" onClick={this.stopSequencer}>Stop</button>
+            <button className="ml-3 sequencer-button text-success" onClick={() => this.playSequencer(this.state.bpm)}>Play</button>
           </Col>
         </Row>
-        <Row className="text-center text-muted">
-          <Col className="font-weight-light">
-            <Button outline className={!this.state.isDefaultState ? 'd-none m-3' : 'm-3'} onClick={() => this.addTrack()}><i className="fa fa-plus-circle"></i> Tracks</Button>
-            <Button outline className={!this.state.isDefaultState ? 'd-none m-3' : 'm-3'} onClick={() => this.addStep()}><i className="fa fa-plus-circle"></i> Steps</Button>
+        <Row className="mb-3">
+          <Col>
+            <button className='m-3 sequencer-button' onClick={() => this.addTrack()}><i className="fa fa-plus-circle"></i> Tracks</button>
+            <button className={!this.state.isDefaultState ? 'd-none m-3 sequencer-button' : 'm-3 sequencer-button'} onClick={() => this.addStep()}><i className="fa fa-plus-circle"></i> Steps</button>
           </Col>
         </Row>
-        <Row className={this.state.isPlaying ? 'd-none' : 'text-muted text-center'}>
+        <Row className={this.state.isPlaying ? 'd-none' : null}>
           <Col xs="2">
-            <h5>BPM</h5>
+            <h5>Bpm</h5>
           </Col>
-          <Col xs="8">
-            <Input type='range' min={60} max={700} value={this.state.bpm} onChange={this.handleBPMChange}/>
+          <Col xs="8" className="bpm">
+            <input className="bpm-slider" type='range' min={60} max={700} value={this.state.bpm} onChange={this.handleBPMChange}/>
           </Col>
           <Col xs="2">
-            <h5 className="font-weight-light">{this.state.bpm}</h5>
+            <h5>{this.state.bpm}</h5>
           </Col>
         </Row>
       </Fragment>

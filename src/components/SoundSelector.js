@@ -6,7 +6,8 @@ export default class SoundSelector extends Component {
   constructor(props) {
     super(props);
     this.state = {
-                    selectedSoundIdx: 0
+                    selectedSoundIdx: 0,
+                    dropDownHover: false
                   };
   }
 
@@ -39,7 +40,17 @@ export default class SoundSelector extends Component {
 
     return(
       <UncontrolledDropdown size="sm">
-        <DropdownToggle caret>
+        <DropdownToggle caret
+                        className={!this.state.dropDownHover ? 'shadow-none': null}
+                        onMouseEnter={() => this.setState(prevState => ({dropDownHover: !prevState.dropDownHover}))}
+                        onMouseLeave={() => this.setState(prevState => ({dropDownHover: !prevState.dropDownHover}))}
+                        style={{backgroundColor: 'white',
+                                border: '1px solid #1A163D',
+                                color: '#1A163D',
+                                borderRadius: '0px',
+                                boxShadow: this.state.dropDownHover ? '3px 3px #1A163D': null,
+                                transition: 'box-shadow 0.2s ease-in-out'
+                              }}>
           {sounds[this.state.selectedSoundIdx]}
         </DropdownToggle>
         <DropdownMenu>

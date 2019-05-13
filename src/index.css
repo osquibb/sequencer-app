@@ -1,5 +1,73 @@
 body {
   font-family: Arial, sans-serif;
-  background-color: #f2f9f9;
+  color: #1A163D;
+  background-color: #F7F7F5;
+  font-weight: 100;
+  font-variant: small-caps;
+  text-align: center;
+}
+
+button.sequencer-button {
+  padding: 6px 10px;
+  border: 1px solid #1A163D;
+  background-color: white;
   font-variant: small-caps;
 }
+
+button.sequencer-button:hover {
+  box-shadow: 3px 3px #1A163D;
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.bpm-slider {
+  -webkit-appearance: none;  /* Override default CSS styles */
+  appearance: none;
+  width: 100%; /* Full-width */
+  height: 10px; /* Specified height */
+  background: #d3d3d3; /* Grey background */
+  outline: none; /* Remove outline */
+  -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+  transition: opacity .2s;
+}
+
+.bpm-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  background: white;
+  border: 1px solid #1A163D;
+  cursor: pointer;
+}
+
+.bpm-slider::-webkit-slider-thumb:hover {
+  box-shadow: 2px 2px #1A163D;
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.bpm-slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px; 
+  background: white;
+  border: 1px solid #1A163D; 
+  cursor: pointer; 
+}
+
+.bpm-slider::-moz-range-thumb:hover {
+  box-shadow: 2px 2px #1A163D;
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.bpm-slider:focus {
+  outline: none;
+}
+
+.bpm-slider:hover {
+  color: red;
+}
+
+.bpm {
+  display: flex;
+  align-items: center;
+}
+
